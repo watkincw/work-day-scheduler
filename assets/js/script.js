@@ -20,6 +20,7 @@ const textAreaText = document.querySelectorAll('textarea') // targets ALL textar
 
 // GLOBAL VARABLES FOR DAY PLANNER SECTION END //
 // SAVE BUTTONS LOGIC
+
 // for loop to save taskText to localStorage on saveBtn click -- updates/saves ALL fields at once
 for (let i = 0; i < saveBtn.length; i++) { 
 	// when a saveBtn is clicked,
@@ -55,5 +56,39 @@ const loadTasks = function() {
 
 
 // LOAD TASKS LOGIC END //
+// CHANGE ROW COLOR BASED ON TIME OF DAY //
+
+const rows = document.getElementsByClassName("row");
+let currentHour = parseInt(moment().format('H'));
+
+console.log(currentHour);
+
+Array.from(rows).forEach(row => { 
+	let rowIdString = row.id;
+	let rowHour;
+
+	if (rowIdString) { 
+		rowHour = parseInt(rowIdString);
+	}
+	if (rowHour) { 
+		// compares row id to current hour and sets color acordingly
+		if (currentHour === rowHour) { 
+			setColor(row, "#ff6961");
+		} else if ((currentHour < rowHour) && (currentHour > rowHour - 6)) { 
+			setColor(row, "#77dd77");
+		} else if ((currentHour > rowHour) && (currentHour < rowHour + 6)) { 
+			setColor(row, "#d3d3d3");
+		}
+	}
+})
+
+function setColor(element, color) { 
+	element.style.backgroundColor = color;
+}
+
+
+// CHANGE ROW COLOR BASED ON TIME OF DAY END //
+
+
 loadTasks();
 console.log(localStorage);
